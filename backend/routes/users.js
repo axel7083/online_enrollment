@@ -1,5 +1,9 @@
 const router = require('express').Router();
+
+/*Models*/
 const User = require('../models/User.model');
+const UserSession = require('../models/UserSession.model');
+
 const jwt = require('jsonwebtoken');
 const auth = require('../middleware/auth');
 
@@ -43,10 +47,19 @@ router.route('/login').post((req, res) => {
                     { userId: user._id },
                     'RANDOM_TOKEN_SECRET',
                     { expiresIn: '24h' });
-                res.status(200).json({
-                    userId: user._id,
-                    token: token
-                });
+
+                UserSession.replaceOne({userId: user._id},{userId: user._id, token: token},{ upsert: true })
+                    .then((session) => {
+                        //console.log("replaceOne worked " + session);
+                        res.status(200).json({
+                            userId: user._id,
+                            token: token,
+                            expiresIn: 1
+                        });
+                    })
+                    .catch((err) => {
+                        res.status(401).json('Error replaceOne: ' + err);
+                    });
 
             }
             else
@@ -65,6 +78,26 @@ router.route('/login').post((req, res) => {
     );
 });
 
+router.route('/logout').get(auth,(req, res) => {
+
+    const userId = req.cookies['userId'] || req.query.userId;
+    res.clearCookie("token");
+    res.clearCookie("userId");
+    UserSession.findOneAndDelete({userId:userId})
+        .then(() => {
+            res.status(200).json("Done!");
+        })
+        .catch((err) => {
+            res.status(400).json('Error: ' + err);
+        })
+
+});
+
+router.route('/auth').get(auth,(req, res) => {
+    res.status(200).json("True");
+});
+
+
 
 
 
@@ -73,6 +106,12 @@ router.route('/login').post((req, res) => {
 router.route('/').get(auth,(req,res)=> {
     User.find()
         .then(users => res.json(users))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
+router.route('/session').get((req,res)=> {
+    UserSession.find()
+        .then(sessions => res.json(sessions))
         .catch(err => res.status(400).json('Error: ' + err));
 });
 

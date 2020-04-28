@@ -1,11 +1,22 @@
 import React from "react";
 import MonacoEditor from "react-monaco-editor";
 
+
 export default class CodeEditor extends React.Component {
-    constructor() {
-        super();
+    constructor(prop) {
+        super(prop);
+
         this.state = {
-            code: "// type your code... \n",
+            code: "/* You have to keep the definition of the main function,\n" +
+                "   otherwise you will not be able to use this code    \n" +
+                " */\n" +
+                "\n" +
+                "function main(input)\n" +
+                "{\n" +
+                "    var output = input;\n" +
+                "    /* The output var will be the right anwsers for the problem */\n" +
+                "    return output;\n" +
+                "}",
             theme: "vs-light",
         };
     }

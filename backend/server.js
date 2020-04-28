@@ -1,10 +1,16 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
+
 
 require('dotenv').config();
 
 const app = express();
+
+//Parse the cookies
+app.use(cookieParser());
+
 const port = process.env.PORT ||5000;
 
 app.use(cors());
