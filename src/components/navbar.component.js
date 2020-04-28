@@ -13,6 +13,7 @@ export default class Navigation extends Component {
         super(props);
 
         this.logout = this.logout.bind(this);
+        this.axiosdata = this.axiosdata.bind(this);
 
         this.state = {
             isLogin: false,
@@ -36,7 +37,7 @@ export default class Navigation extends Component {
             .then(response => {
 
                 if(response.status === 200)
-                    this.setState({ buttons: <Button variant="success" style={btnStyle} onClick={this.logout}>logout</Button> })
+                    this.setState({ buttons: <Button variant="success" style={btnStyle} onClick={this.logout}>logout</Button> });
                 else {
                     this.setState( {buttons: <div>
                             <Button variant="success" style={btnStyle} href="/login">Login</Button>
@@ -70,6 +71,13 @@ export default class Navigation extends Component {
             });
     }
 
+    axiosdata()
+    {
+
+    }
+
+
+
 
     render() {
 
@@ -80,10 +88,11 @@ export default class Navigation extends Component {
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                     <Nav className="mr-auto">
-                        <Nav.Link href="#test1">Test1</Nav.Link>
+                        <Button variant="success" style={btnStyle} onClick={this.axiosdata}>test</Button>
+                        <Nav.Link href="#test1">Home</Nav.Link>
                         <Nav.Link href="#test2">Test2</Nav.Link>
-                        <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-                            <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+                        <NavDropdown title="Courses" id="collasible-nav-dropdown">
+                            <NavDropdown.Item href="#action/3.1">Search a course</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
                             <NavDropdown.Divider />

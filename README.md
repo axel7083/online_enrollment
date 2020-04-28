@@ -14,7 +14,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - [x] HashedPassword
 - [x] Authentification middleware 
 - [x] SecureLogout
-- [ ] ?
+- [x] Scraping Courses from ius and adding into DB
+- [ ] Implement admin/teacher/student level of access
 - [ ] ?
 - [ ] ?
 
@@ -23,6 +24,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - [x] `/users/logout`
 - [x] `/users/signup`
 - [x] `/users/auth` (=> check the user is properly authentificated)
+- [x] `/courses/add`
+- [x] `/courses/update`
+- [x] `/courses/scraping-courses-from-ius` (=>This one is VERY performance consumming)
 
 
 ### FrontEnd functions
