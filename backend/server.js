@@ -25,11 +25,15 @@ connection.once('open',() => {
 });
 
 
-
 const userRoute = require('./routes/users');
-//We use the middleware to check for any request on user that only the right user is allow to access
+const coursesRoute = require('./routes/courses');
+
+const debugRoute = require('./routes/debug'); //TODO: Need to be remove for production
 
 app.use('/users',userRoute);
+app.use('/courses',coursesRoute);
+
+app.use('/debug',debugRoute); //TODO: Need to be remove for production
 
 app.listen(port,() => {
     console.log(`Server is running on port: ${port}`);

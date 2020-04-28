@@ -18,6 +18,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - [ ] ?
 - [ ] ?
 
+#### End points
+- [x] `/users/login`
+- [x] `/users/logout`
+- [x] `/users/signup`
+- [x] `/users/auth` (=> check the user is properly authentificated)
+
+
 ### FrontEnd functions
 - [x] Navbar (Login/SignUp/Logout)
 - [x] LoginForm

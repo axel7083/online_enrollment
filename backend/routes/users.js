@@ -7,6 +7,15 @@ const UserSession = require('../models/UserSession.model');
 const jwt = require('jsonwebtoken');
 const auth = require('../middleware/auth');
 
+//Display user's informations ONLY
+router.route('/').get(auth,(req,res)=> {
+    const userId = req.cookies['userId'] || req.query.userId;
+
+    User.findById(userId)
+        .then(users => res.json(users))
+        .catch(err => res.status(400).json('Error: ' + err));
+});
+
 router.route('/signup').post((req, res) => {
 
     const user = new User({
@@ -99,23 +108,7 @@ router.route('/auth').get(auth,(req, res) => {
 
 
 
-
-
-
-
-router.route('/').get(auth,(req,res)=> {
-    User.find()
-        .then(users => res.json(users))
-        .catch(err => res.status(400).json('Error: ' + err));
-});
-
-router.route('/session').get((req,res)=> {
-    UserSession.find()
-        .then(sessions => res.json(sessions))
-        .catch(err => res.status(400).json('Error: ' + err));
-});
-
-
+/*
 router.route('/:id').get((req,res)=> {
    User.findById(req.params.id)
        .then(user => res.json(user))
@@ -140,7 +133,7 @@ router.route('/update/:id').post((req,res)=>{
 
         })
         .catch(err => res.status(400).json('Error: ' + err));
-});
+});*/
 
 
 module.exports = router;
