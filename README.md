@@ -26,13 +26,19 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ### Installation
 
+```
 git clone https://github.com/axel0070/online_enrollment
 cd online_enrollment
-
+```
 # Start frontEnd
+
+```
 npm install
 npm run build
-
+```
 # Start Backend
+
+```
 cd backend
 nodemon server
+```
