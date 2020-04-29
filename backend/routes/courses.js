@@ -3,7 +3,7 @@ const Course = require('../models/Course.model');
 
 const auth = require('../middleware/auth');
 
-router.route('/').get((req, res) => {
+router.route('/').get(auth,(req, res) => {
 
     const page = req.query.page || 1;
     const nPerPage = req.query.nPerPage || 20;

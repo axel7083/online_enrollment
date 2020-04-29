@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import axios from 'axios';
 import {Table, ButtonGroup,Button } from "react-bootstrap";
+import Cookie from "js-cookie";
 
 const tableStyle = {
     'paddingLeft': '50px',
@@ -35,7 +36,7 @@ export default class Courses extends Component {
 
     updateTable()
     {
-        axios.get('http://localhost:5000/courses?page=' + this.state.page)
+        axios.get('http://localhost:5000/courses?page=' + this.state.page + '&token=' + Cookie.get('token') + "&userId="+Cookie.get('userId'))
             .then(res => {
                 let nbOfPage = res.data.nbOfPage;
 
@@ -67,12 +68,11 @@ export default class Courses extends Component {
 
     setPage(page)
     {
+        //TODO: remove the ugly animation of the button when you click on it
         console.log("Select page: " + page);
         this.state.page = page; //Manual change because we don't care and are thugs
         this.updateTable();
     }
-
-
 
 
     render() {
