@@ -4,7 +4,23 @@ const Course = require('../models/Course.model');
 const auth = require('../middleware/auth');
 
 router.route('/').get((req, res) => {
-    res.json("Hello world");
+
+    const page = req.query.page || 1;
+    const nPerPage = req.query.nPerPage || 20;
+
+    Course.find()
+        .skip( page > 0 ? ( ( page - 1 ) * nPerPage ) : 0 )
+        .limit( nPerPage )
+        .then((response) => {
+
+            Course.count()
+                .then((count) => {
+                    res.json({array:response,count:count,nbOfPage:Math.ceil(count/nPerPage)});
+                })
+                .catch((err) => res.status(400).json("Error: " + err));
+        })
+        .catch((err) => res.status(400).json("Error: " + err));
+
 });
 
 /*only teacher/admin should be able to access to this endpoint.*/
