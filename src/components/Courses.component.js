@@ -19,7 +19,6 @@ export default class Courses extends Component {
         this.updateTable = this.updateTable.bind(this);
         this.setPage = this.setPage.bind(this);
 
-
         this.state = {
             data: [],
             page: 1,

@@ -1,5 +1,7 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+https://react-bootstrap.github.io/
+
 # TODO: Project Software engineering
 
 ### Models / DataBase
@@ -15,8 +17,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 - [x] Authentification middleware 
 - [x] SecureLogout
 - [x] Scraping Courses from ius and adding into DB
-- [ ] Implement admin/teacher/student level of access
-- [ ] ?
+- [ ] Implement admins/students level of access
+- [ ] 
 - [ ] ?
 
 #### End points
