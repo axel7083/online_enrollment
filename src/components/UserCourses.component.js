@@ -4,13 +4,20 @@ import {Form, InputGroup, Col, Button, Card, Table} from "react-bootstrap";
 import Cookie from "js-cookie";
 import {Typeahead} from 'react-bootstrap-typeahead';
 
+const RemoveBtnStyle = {
+    'textAlign': 'center'
+};
+
 export default class UserCourses extends Component {
+
     constructor(props) {
         super(props);
 
         this.onInputChange = this.onInputChange.bind(this);
         this.addCourse = this.addCourse.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+        this.removeCourse = this.removeCourse.bind(this);
+
 
         this.state = {
             UserCourses: [],
@@ -25,12 +32,18 @@ export default class UserCourses extends Component {
 
     //Right before anything load the page this is called
     componentDidMount() {
-
+        axios.get('http://localhost:5000/users?token=' + Cookie.get('token') + "&userId="+Cookie.get('userId'))
+            .then(res => {
+                this.setState({UserCourses:res.data.courses});
+            })
+            .catch((err) => {
+                alert('Error: ' + err);
+            });
     }
 
     //InputChange for the course box
     onInputChange(e) {
-        console.log(e);
+
         if(e.length<3)
             return;
 
@@ -40,7 +53,7 @@ export default class UserCourses extends Component {
                 var options = [];
 
                 res.data.forEach((item,index) => {
-                    options.push({id:index,label:item.course_id+' ' + item.course_name});
+                    options.push({id:item._id,label:item.course_id+' ' + item.course_name});
                 });
                 this.setState({options:options});
 
@@ -50,12 +63,19 @@ export default class UserCourses extends Component {
             });
     }
 
+    removeCourse(index)
+    {
+        console.log(index);
+        this.state.UserCourses.splice(index, 1);
+        this.setState({UserCourses:this.state.UserCourses});
+    }
+
     addCourse()
     {
         if(this.state.selected === undefined)
             return;
 
-        this.state.UserCourses.push({order:this.state.order,type:this.state.type,course_id:this.state.selected[0].label.split(' ')[0]});
+        this.state.UserCourses.push({order:this.state.order,type:this.state.type,course_id:this.state.selected[0].id,code:this.state.selected[0].label.split(' ')[0]});
         this.setState({
             UserCourses:this.state.UserCourses,
             selected: undefined,
@@ -68,16 +88,35 @@ export default class UserCourses extends Component {
 
     onSubmit(e) {
         e.preventDefault();
+        console.log("Submitting");
+        console.log(this.state.UserCourses);
+
+        const userCourses = {
+            userId:Cookie.get('userId'),
+            courses: this.state.UserCourses
+        };
+
+        console.log(userCourses);
+
+        axios.post('http://localhost:5000/users/setUserCourses?token=' + Cookie.get('token') + "&userId="+Cookie.get('userId'),userCourses)
+            .then(res => {
+                console.log(res);
+                window.location = '/UserCourses';
+            })
+            .catch((err) => {
+                alert('Error: ' + err);
+                window.location = '/UserCourses';
+            });
+
 
     }
-
 
     render() {
         return (
             <Card style={{ width: '80%' }} className="mx-auto">
                 <Card.Body>
                     <Card.Title>User courses</Card.Title>
-                        <Form>
+                        <Form onSubmit={this.onSubmit}>
                             <Form.Row>
                                 <Form.Group as={Col} controlId="formGridEmail">
                                     <fieldset disabled>
@@ -137,21 +176,22 @@ export default class UserCourses extends Component {
                                     <th>Code</th>
                                     <th>Type</th>
                                     <th>Order</th>
+                                    <th>Options</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                {this.state.UserCourses.map(function(item, i){
+                                {this.state.UserCourses.map((item, i) => {
                                     return <tr key={i}>
-                                        <td>{item.course_id}</td>
+                                        <td>{item.code}</td>
                                         <td>{item.type}</td>
                                         <td>{item.order}</td>
+                                        <td key={i} style={RemoveBtnStyle} >
+                                        <Button variant="danger" onClick={() => this.removeCourse(i)}>Remove</Button></td>
                                     </tr>})}
                                 </tbody>
                             </Table>
 
-                            <Button variant="primary" type="submit">
-                                Save
-                            </Button>
+                            <input type="submit" value="Save" className="btn btn-primary"/>
                         </Form>
                 </Card.Body>
             </Card>

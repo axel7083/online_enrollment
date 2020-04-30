@@ -15,8 +15,9 @@ router.route('/').get(auth,(req,res)=> {
     User.findById(userId)
         .then(user => {
             UserCourses.findOne({userId:userId})
-                .then((courses) => {
-                    res.json({user:user,courses:courses})
+                .then((data) => {
+
+                    res.json({user:user,courses:data?data.courses:[]})
                 })
                 .catch((err) =>  res.status(400).json('Error: ' + err));
         })
@@ -115,24 +116,18 @@ router.route('/auth').get(auth,(req, res) => {
 });
 
 
-router.route('/createUserCourses').post(auth,(req,res)=> {
+router.route('/setUserCourses').post(auth,(req,res)=> {
+    console.log(req.body.userId || req.query.userId);
     //add to the user a course
-    const userCourses = new UserCourses();
-
-    userCourses.userId = req.body.userId; //TODO: Only a student can add course(s) to his profile, check level
-
-    userCourses.courses = req.body.courses; //Must be an array
-
-    userCourses.save()
+    UserCourses.replaceOne({userId:req.body.userId},{userId:req.body.userId, courses:req.body.courses},{ upsert: true })
         .then(() => {
             res.json("Added!");
         })
-        .catch((err) => {res.status(400).json('Error: ' + err)});
-
+        .catch((err) => res.status(401).json('Error: ' + err));
 });
 
-//TODO: do update / edit / push / delete
 
+//TODO: do update / edit / push / delete
 
 /*
 router.route('/:id').get((req,res)=> {
