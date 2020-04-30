@@ -81,6 +81,7 @@ export default class Navigation extends Component {
                     <Nav className="mr-auto">
                         <Nav.Link href="/">Home</Nav.Link>
                         <Nav.Link href="/courses">Courses</Nav.Link>
+                        <Nav.Link href="/UserCourses">User Courses</Nav.Link>
                         <NavDropdown title="Blabla dropdown" id="collasible-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Search a course</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>

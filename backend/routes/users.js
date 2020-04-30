@@ -3,6 +3,7 @@ const router = require('express').Router();
 /*Models*/
 const User = require('../models/User.model');
 const UserSession = require('../models/UserSession.model');
+const UserCourses = require('../models/UserCourses.model');
 
 const jwt = require('jsonwebtoken');
 const auth = require('../middleware/auth');
@@ -12,7 +13,13 @@ router.route('/').get(auth,(req,res)=> {
     const userId = req.cookies['userId'] || req.query.userId;
 
     User.findById(userId)
-        .then(users => res.json(users))
+        .then(user => {
+            UserCourses.findOne({userId:userId})
+                .then((courses) => {
+                    res.json({user:user,courses:courses})
+                })
+                .catch((err) =>  res.status(400).json('Error: ' + err));
+        })
         .catch(err => res.status(400).json('Error: ' + err));
 });
 
@@ -102,10 +109,29 @@ router.route('/logout').get(auth,(req, res) => {
 
 });
 
+/*This endpoint allow the frontend to check if the user is login*/
 router.route('/auth').get(auth,(req, res) => {
     res.status(200).json("True");
 });
 
+
+router.route('/createUserCourses').post(auth,(req,res)=> {
+    //add to the user a course
+    const userCourses = new UserCourses();
+
+    userCourses.userId = req.body.userId; //TODO: Only a student can add course(s) to his profile, check level
+
+    userCourses.courses = req.body.courses; //Must be an array
+
+    userCourses.save()
+        .then(() => {
+            res.json("Added!");
+        })
+        .catch((err) => {res.status(400).json('Error: ' + err)});
+
+});
+
+//TODO: do update / edit / push / delete
 
 
 /*

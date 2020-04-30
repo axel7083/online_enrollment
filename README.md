@@ -18,7 +18,8 @@ https://react-bootstrap.github.io/
 - [x] SecureLogout
 - [x] Scraping Courses from ius and adding into DB
 - [ ] Implement admins/students level of access
-- [ ] 
+- [ ] ?
+- [ ] ?
 - [ ] ?
 
 #### End points
@@ -26,6 +27,8 @@ https://react-bootstrap.github.io/
 - [x] `/users/logout`
 - [x] `/users/signup`
 - [x] `/users/auth` (=> check the user is properly authentificated)
+- [x] `/users/createUserCourses`
+
 - [x] `/courses/add`
 - [x] `/courses/update`
 - [x] `/courses/scraping-courses-from-ius` (=>This one is VERY performance consumming)
@@ -33,8 +36,11 @@ https://react-bootstrap.github.io/
 
 ### FrontEnd functions
 - [x] Navbar (Login/SignUp/Logout)
-- [x] LoginForm
-- [ ] SignUp Form (need to be improve)
+- [x] Login component
+- [ ] Course list (Need to be improve => addind search/sorting by academic etc..)
+- [ ] SignUp component (need to be improve)
+- [ ] Profils component (edit/delete account)
+- [ ] 
 
 
 # Installation

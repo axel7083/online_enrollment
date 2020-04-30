@@ -83,6 +83,25 @@ router.route('/update').post((req, res) => {
     );
 });
 
+
+router.route('/search').get(auth,(req, res) => {
+
+    const value = req.query.value;
+
+    Course.find( { $or: [ {course_id:{$regex:".*"+ value + ".*"}}, {course_name:{$regex:".*"+ value + ".*"}} ] })
+        .limit( 10 )
+        .then((response) => {
+            res.json(response);
+        })
+        .catch((err) => res.status(400).json("Error: " + err));
+
+});
+
+
+
+
+
+
 //This operation is VERY expensive in term of performance
 //And should NOT be run often.
 router.route('/scraping-courses-from-ius').get((req, res) => {
