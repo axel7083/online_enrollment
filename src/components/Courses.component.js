@@ -29,40 +29,38 @@ export default class Courses extends Component {
     }
 
     //Right before anything load the page this is called
-    componentDidMount() {
-        this.updateTable();
+    async componentDidMount() {
+        await this.updateTable();
     }
 
-    updateTable()
+    async updateTable()
     {
-        axios.get('http://localhost:5000/courses?page=' + this.state.page + '&token=' + Cookie.get('token') + "&userId="+Cookie.get('userId'))
-            .then(res => {
-                let nbOfPage = res.data.nbOfPage;
+        const response = await fetch('http://localhost:5000/courses?page=' + this.state.page + '&token=' + Cookie.get('token') + "&userId="+Cookie.get('userId'));
+        const res = await response.json();
 
-                let btns = [];
-                let start;
-                if(this.state.page <= 1)
-                    start = 1;
-                else if(nbOfPage>0 && this.state.page>=nbOfPage)
-                    start = nbOfPage-2;
-                else
-                    start = this.state.page - 1;
+        console.log(res);
+        let nbOfPage = res.nbOfPage;
 
-                for(var i = start; i < start+3; i++)
-                {
-                    btns.push(i);
-                }
+        let btns = [];
+        let start;
+        if(this.state.page <= 1)
+            start = 1;
+        else if(nbOfPage>0 && this.state.page>=nbOfPage)
+            start = nbOfPage-2;
+        else
+            start = this.state.page - 1;
 
-                this.setState({
-                    buttonsGroup: btns,
-                    data: (res.data.array),
-                    nbOfPage: nbOfPage
-                })
+        for(let i = start; i < start+3; i++)
+        {
+            btns.push(i);
+        }
 
-            })
-            .catch(err => {
+        this.setState({
+            buttonsGroup: btns,
+            data: (res.array),
+            nbOfPage: nbOfPage
+        })
 
-            });
     }
 
     setPage(page)

@@ -21,7 +21,7 @@ export default class Navigation extends Component {
 
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         /*Check if the user is properly authenticated*/
         if(!Cookie.get('token'))
         {
@@ -32,25 +32,18 @@ export default class Navigation extends Component {
             return;
         }
 
-        fetch('http://localhost:5000/users/auth?token=' + Cookie.get('token') + "&userId="+Cookie.get('userId'))
-            .then(response => {
+        const response = await fetch('http://localhost:5000/users/auth?token=' + Cookie.get('token') + "&userId="+Cookie.get('userId'));
 
-                if(response.status === 200)
-                    this.setState({ buttons: <Button variant="success" style={btnStyle} onClick={this.logout}>logout</Button> });
-                else {
-                    this.setState( {buttons: <div>
-                            <Button variant="success" style={btnStyle} href="/login">Login</Button>
-                            <Button variant="outline-success" style={btnStyle} href="/signup">Sign up</Button>
-                        </div>});
-                    throw new Error(response.status);
-                }
-            })
-            .catch(function(error) {
-                console.log("Error detected: " + error);
-                /*Possible problem in the session so forcing of deletion of token and userId*/
-                Cookie.remove("token");
-                Cookie.remove("userId");
-            });
+        if(response.status === 200)
+            this.setState({ buttons: <Button variant="success" style={btnStyle} onClick={this.logout}>logout</Button> });
+        else {
+            this.setState( {buttons: <div>
+                    <Button variant="success" style={btnStyle} href="/login">Login</Button>
+                    <Button variant="outline-success" style={btnStyle} href="/signup">Sign up</Button>
+                </div>});
+            throw new Error(response.status);
+        }
+
     }
 
 
