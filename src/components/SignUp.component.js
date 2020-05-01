@@ -6,29 +6,53 @@ export default class CreateUser extends Component {
     constructor(props) {
         super(props);
 
+        this.onChangeName = this.onChangeName.bind(this);
+        this.onChangeSurname = this.onChangeSurname.bind(this);
+        this.onChangeEmail = this.onChangeEmail.bind(this);
+
         this.onChangePassword = this.onChangePassword.bind(this);
         this.onChangeRePassword = this.onChangeRePassword.bind(this);
-        this.onChangeUsername = this.onChangeUsername.bind(this);
+        this.onChangeFaculty = this.onChangeFaculty.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
 
         this.state = {
-            username: '',
+            name: '',
+            surname: '',
             password: '',
-            repassword: ''
+            repassword: '',
+            faculty:'',
+            email: ''
         };
 
     }
 
     //Right before anything load the page this is called
     componentDidMount() {
-        this.setState({
-            username: "@"
-        })
+
     }
 
-    onChangeUsername(e) {
+    onChangeName(e) {
         this.setState({
-            username: e.target.value
+            name: e.target.value
+        });
+    }
+
+    onChangeSurname(e) {
+        this.setState({
+            surname: e.target.value
+        });
+    }
+
+    onChangeEmail(e) {
+        this.setState({
+            email: e.target.value
+        });
+    }
+
+
+    onChangeFaculty(e) {
+        this.setState({
+            faculty: e.target.value
         });
     }
 
@@ -47,7 +71,7 @@ export default class CreateUser extends Component {
     onSubmit(e) {
         e.preventDefault();
 
-        if(this.state.username !== this.state.password)
+        if(this.state.repassword !== this.state.password)
         {
             alert("Error");
             window.location = '/signup';
@@ -55,17 +79,22 @@ export default class CreateUser extends Component {
         }
 
         const user = {
-            username: this.state.username,
-            password: this.state.password
+            name: this.state.name,
+            surname: this.state.surname,
+            password: this.state.password,
+            faculty: this.state.faculty,
+            email: this.state.email
         };
 
         console.log(user);
 
-        axios.post('http://localhost:5000/users/add', user)
-            .then(res => console.log(res.data));
+        axios.post('http://localhost:5000/users/signup', user)
+            .then(res => {
+                console.log("Success");
+                window.location = '/login';
+            })
+            .catch((err) => alert("Error: " + err));
 
-        //Return to the user list
-        //window.location = '/';
     }
 
 
@@ -76,6 +105,24 @@ export default class CreateUser extends Component {
                     <Card.Title>Register</Card.Title>
                     <form onSubmit={this.onSubmit}>
                         <div className="form-group">
+                            <label>Name: </label>
+                            <input type="text"
+                                   required
+                                   className="form-control"
+                                   value={this.state.name}
+                                   onChange={this.onChangeName}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label>Surname: </label>
+                            <input type="text"
+                                   required
+                                   className="form-control"
+                                   value={this.state.surname}
+                                   onChange={this.onChangeSurname}
+                            />
+                        </div>
+                        <div className="form-group">
                             <label>Email: </label>
                             <input type="text"
                                    required
@@ -84,6 +131,17 @@ export default class CreateUser extends Component {
                                    onChange={this.onChangeEmail}
                             />
                         </div>
+
+                        <div className="form-group">
+                            <label>Faculty: </label>
+                            <input type="text"
+                                   required
+                                   className="form-control"
+                                   value={this.state.faculty}
+                                   onChange={this.onChangeFaculty}
+                            />
+                        </div>
+
                         <div className="form-group">
                             <label>Password: </label>
                             <input type="password"

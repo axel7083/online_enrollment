@@ -27,8 +27,11 @@ router.route('/').get(auth,(req,res)=> {
 router.route('/signup').post((req, res) => {
 
     const user = new User({
-        username: req.body.username,
+        name: req.body.name,
+        surname: req.body.surname,
         email: req.body.email,
+        faculty: req.body.faculty,
+        password: req.body.password
     });
 
     user.password = user.generateHash(req.body.password);
@@ -114,7 +117,6 @@ router.route('/logout').get(auth,(req, res) => {
 router.route('/auth').get(auth,(req, res) => {
     res.status(200).json("True");
 });
-
 
 router.route('/setUserCourses').post(auth,(req,res)=> {
     console.log(req.body.userId || req.query.userId);
