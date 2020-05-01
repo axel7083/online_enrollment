@@ -34,13 +34,13 @@ https://react-bootstrap.github.io/
 - [x] `/courses/scraping-courses-from-ius` (=>This one is VERY performance consumming)
 
 
-### FrontEnd functions
+### FrontEnd Component
 - [x] Navbar (Login/SignUp/Logout)
-- [x] Login component
-- [x] Explore component
-- [x] User's courses component
+- [x] Login 
+- [x] Explore 
+- [x] User's courses 
+- [x] SignUp component
 - [ ] Course list (Need to be improve => addind search/sorting by academic etc..)
-- [ ] SignUp component (need to be improve)
 - [ ] Profils component (edit/delete account)
 - [ ] 
 
