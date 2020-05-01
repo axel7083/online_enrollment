@@ -1,5 +1,4 @@
 import React, {Component} from "react";
-import axios from 'axios';
 import {Table, ButtonGroup,Button } from "react-bootstrap";
 import Cookie from "js-cookie";
 
