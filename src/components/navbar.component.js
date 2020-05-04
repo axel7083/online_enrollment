@@ -41,7 +41,7 @@ export default class Navigation extends Component {
                     <Button variant="success" style={btnStyle} href="/login">Login</Button>
                     <Button variant="outline-success" style={btnStyle} href="/signup">Sign up</Button>
                 </div>});
-            throw new Error(response.status);
+            
         }
 
     }
